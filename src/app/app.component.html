@@ -1,0 +1,81 @@
+<section id="container">
+  <div id="header">
+    <input
+      [(ngModel)]="userInput"
+      type="text"
+      class="form-control"
+      placeholder="Enter the task..."
+    />
+    <select
+      [(ngModel)]="selectValue"
+      name="difficulty"
+      id="difficulty-lvl"
+      class="form-select"
+    >
+      <option value="" selected>Select</option>
+      <option *ngFor="let option of Options" value="{{ option }}">
+        {{ option }}
+      </option>
+    </select>
+    <button (click)="addTask()" class="btn btn-primary">Add</button>
+  </div>
+
+  <div id="content">
+    <div class="card" *ngFor="let cont of content">
+      <div class="card__header">
+        <p><fa-icon [icon]="bars"></fa-icon>{{ cont.state }}</p>
+      </div>
+
+      <ul *ngIf="cont.toDo" class="card">
+        <li *ngFor="let li of content[0].toDo; index as i">
+          <div>
+            <p>{{ i + 1 }}.{{ li.userInput }}</p>
+            <div>
+              <button
+                (click)="moveToProgress(i)"
+                class="btn btn-primary toProgress"
+              >
+                <fa-icon [icon]="rightArrow"></fa-icon>
+              </button>
+              <button (click)="deleteTask(i)" class="btn btn-danger delete">
+                <fa-icon [icon]="deleteMark"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-primary">{{ li.selectValue }}</button>
+        </li>
+      </ul>
+
+      <ul *ngIf="cont.progress" class="card">
+        <li *ngFor="let li of content[1].progress; index as i">
+          <div>
+            <p>{{ i + 1 }}.{{ li.userInput }}</p>
+            <div>
+              <button (click)="moveToToDo(i)" class="btn btn-primary toToDo">
+                <fa-icon [icon]="leftArrow"></fa-icon>
+              </button>
+              <button (click)="moveToDone(i)" class="btn btn-success toDone">
+                <fa-icon [icon]="rightArrow"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-primary">{{ li.selectValue }}</button>
+        </li>
+      </ul>
+
+      <ul *ngIf="cont.done" class="card">
+        <li *ngFor="let li of content[2].done; index as i">
+          <div>
+            <p>{{ i + 1 }}.{{ li.userInput }}</p>
+            <div>
+              <button (click)="backToProgress(i)" class="btn btn-primary">
+                <fa-icon [icon]="leftArrow"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-primary">{{ li.selectValue }}</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
